@@ -5,7 +5,7 @@ It is meant to be a drop in replacement for an AT7456 chip, using the same SPI i
 The project was built for an STM32G071 chip, but could run on an STM32G031 if the video generator is compiled out.
 
 A schematic for the hardware, that is needed to run this software, is avalable at https://www.moddquad.com/p/fc.html
-You may need to use a 8MHz crystal oscillator to drive the OSD chip. A MEMS oscillator may have too much phase noise to work properly. 
+or https://github.com/ModdQuad/ModdOSD/blob/master/Hardware/modd_osd_reference_schematic.png . 
 The software is built using STM32Cube IDE which is available for free at ST Micro's website www.st.com.
  
 Most feature are implemented including;
