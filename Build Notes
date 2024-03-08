@@ -1,0 +1,38 @@
+To build this project you need to use STM32Cube IDE software package.
+
+Once the software is installed, executing it will ask you to select a workspace directory.  
+Create and select an empty folder, hit the launch button.
+
+It will give you a few choices on the left to make a project, select 'Start new project from STM32CubeMX file (.ioc)'  and wait for a bit.
+
+Once the requestor comes up select the file, Browse and select the file 'SW7456.ioc' included in this project. Select the 'Finish' button and wait.
+
+Now you need to copy the osd directory from this project into the directory you created in the first step. (YourDir/SW7456/osd) 
+And add the osd files to the project.
+
+Adding files is goofy in this tool, To add files you need to select SW7456 on the left panel, then select the menu 'project : properties'. 
+From here select 'C/C++ General' then 'Paths and Symbols'.
+Now there should be a series of tabs on the upper part, select the 'Source Location' tab and add the directory 'osd'.
+
+Now add the include path '../osd' to the project using...  
+'project : properties', 'C/C++ Build' then 'Settings' which opens another list.  
+Select 'MCU GCC Compiler : Include paths' in the new list.
+Now add the path '../osd'  There is a tiny icon that you need to click to do this. the first one on the top.
+
+You may want to set a few other GCC options while you are here,  the software expects -O2 optimization level which is not the default.
+-O0 is supported but you will need to change a line in osd_irq.c that sets the horizontal start position.
+
+Now you need to edit some files created in the above steps 
+
+In the file 'Core/Src/main.c' add the line 
+#include "osd_glue.h"   in the appropriate place  
+Then search for 'while (1)' in the file and add the functions 
+osd_init(); 
+osd_loop(); // never returns 
+
+Just one more file to fix, 'Core/src/stm32g0xx_it.c', 
+look at the bottom of the file 'osd_irq.c' to see the change 
+but adding '{osd_comp_irq();return;}' at the top of the 'void ADC1_COMP_IRQHandler(void)' function should work.
+
+
+It now should build proprerly?  It does over here.  If not, welcome to the joys of software development.
